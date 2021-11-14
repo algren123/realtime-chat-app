@@ -3,21 +3,55 @@ import {
   ApolloClient,
   InMemoryCache,
   ApolloProvider,
-  useQuery,
+  useSubscription,
   gql,
   useMutation,
+  HttpLink,
 } from '@apollo/client';
-import { useUser } from '@auth0/nextjs-auth0';
+import { UserProfile, useUser } from '@auth0/nextjs-auth0';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateContent } from '../../features/mainSlice';
+import { WebSocketLink } from '@apollo/client/link/ws';
+import { getMainDefinition } from 'apollo-utilities';
+import { split } from 'apollo-link';
+
+// Workaround to make subscriptions work on Next.JS - headache
+const wsLink: any =
+  typeof window !== 'undefined'
+    ? new WebSocketLink({
+        uri: `ws://localhost:4000/`,
+        options: {
+          reconnect: true,
+        },
+      })
+    : null;
+
+const httplink: any = new HttpLink({
+  uri: 'http://localhost:4000/',
+  credentials: 'same-origin',
+});
+
+const link: any =
+  typeof window !== 'undefined'
+    ? split(
+        ({ query }) => {
+          const { kind, operation }: any = getMainDefinition(query);
+          return kind === 'OperationDefinition' && operation === 'subscription';
+        },
+        wsLink,
+        httplink
+      )
+    : httplink;
 
 const client = new ApolloClient({
+  link,
   uri: 'http://localhost:4000/',
   cache: new InMemoryCache(),
 });
 
+// Subscribe to the messages from GraphQL API
 const GET_MESSAGES = gql`
-  query {
+  subscription {
     messages {
       id
       user
@@ -26,24 +60,29 @@ const GET_MESSAGES = gql`
   }
 `;
 
+// Send message to the GraphQL API
 const POST_MESSAGE = gql`
   mutation ($user: String!, $content: String!) {
     postMessage(user: $user, content: $content)
   }
 `;
 
-const Messages = ({ user }) => {
-  const { data } = useQuery(GET_MESSAGES, {
-    pollInterval: 500,
-  });
+// Render available messages
+const Messages = ({ user }: UserProfile) => {
+  const { data } = useSubscription(GET_MESSAGES);
   if (!data) {
-    return null;
+    return (
+      <div>
+        <h1>No messages yet</h1>
+      </div>
+    );
   }
 
   return (
     <div>
-      {data.messages.map(({ id, user: messageUser, content }) => (
+      {data.messages.map(({ id, user: messageUser, content }: any) => (
         <div
+          key={id}
           style={{
             display: 'flex',
             justifyContent: user === messageUser ? 'flex-end' : 'flex-start',
@@ -66,9 +105,10 @@ const Messages = ({ user }) => {
   );
 };
 
+// Main UI
 const Message = () => {
-  const { user } = useUser();
-  const { content } = useSelector((state) => state.main);
+  const { user }: any = useUser();
+  const { content }: any = useSelector((state: any) => state.main);
   const dispatch = useDispatch();
 
   const [postMessage] = useMutation(POST_MESSAGE);
@@ -89,7 +129,7 @@ const Message = () => {
     <div>
       <Messages user={user.email} />
       <input
-        defaultValue={content}
+        value={content}
         type="text"
         onChange={(e) => dispatch(updateContent(e.target.value))}
       />
@@ -98,6 +138,7 @@ const Message = () => {
   );
 };
 
+// Exporting it this way to pass in the client provider
 export default function Chat() {
   return (
     <ApolloProvider client={client}>

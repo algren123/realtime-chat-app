@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Navbar from '../components/Navbar/Navbar';
 import styled from 'styled-components';
 import { useUser } from '@auth0/nextjs-auth0';
-import Chat from '../components/Chat/Chat.js';
+import Chat from '../components/Chat/Chat.tsx';
 
 const Container = styled.div`
   text-align: center;

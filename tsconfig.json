@@ -15,6 +15,6 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "server/server.js", "components/Chat/Chat.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "server/server.js", "components/Chat/Chat.tsx"],
   "exclude": ["node_modules"]
 }
