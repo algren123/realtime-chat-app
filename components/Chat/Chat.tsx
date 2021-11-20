@@ -1,4 +1,15 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import {
+  Container,
+  MessageInput,
+  SendButton,
+  MessageContainer,
+  MessageBubble,
+  MessageContent,
+  MessageName,
+  UserPicture,
+  NameContainer,
+} from './Chat.styles';
 import {
   ApolloClient,
   InMemoryCache,
@@ -56,20 +67,42 @@ const GET_MESSAGES = gql`
       id
       user
       content
+      picture
+      name
     }
   }
 `;
 
 // Send message to the GraphQL API
 const POST_MESSAGE = gql`
-  mutation ($user: String!, $content: String!) {
-    postMessage(user: $user, content: $content)
+  mutation (
+    $user: String!
+    $content: String!
+    $picture: String!
+    $name: String!
+  ) {
+    postMessage(user: $user, content: $content, picture: $picture, name: $name)
   }
 `;
 
 // Render available messages
 const Messages = ({ user }: UserProfile) => {
   const { data } = useSubscription(GET_MESSAGES);
+
+  // Created an empty dev at the bottom of the messages so it has a reference for where to scroll to the 'bottom'
+  const messagesEndRef: any = useRef(null);
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({
+      block: 'center',
+      behavior: 'smooth',
+    });
+  };
+
+  // Whenever a message is sent, it will scroll to the bottom
+  useEffect(() => {
+    scrollToBottom();
+  }, [data]);
+
   if (!data) {
     return (
       <div>
@@ -79,29 +112,26 @@ const Messages = ({ user }: UserProfile) => {
   }
 
   return (
-    <div>
-      {data.messages.map(({ id, user: messageUser, content }: any) => (
-        <div
-          key={id}
-          style={{
-            display: 'flex',
-            justifyContent: user === messageUser ? 'flex-end' : 'flex-start',
-            paddingBottom: '1em',
-          }}
-        >
-          <div
-            style={{
-              background: user === messageUser ? '#58bf56' : '#e5e6ea',
-              color: user === messageUser ? 'white' : 'black',
-              borderRadius: '1em',
-              padding: '1em',
-            }}
-          >
-            {content}
-          </div>
-        </div>
-      ))}
-    </div>
+    <>
+      <MessageContainer>
+        {data.messages.map(
+          ({ id, user: messageUser, content, picture, name }: any) => (
+            <MessageBubble key={id} user={user} messageUser={messageUser}>
+              <div>
+                <NameContainer user={user} messageUser={messageUser}>
+                  <MessageName>{name}</MessageName>
+                  <UserPicture src={picture} />
+                </NameContainer>
+                <MessageContent user={user} messageUser={messageUser}>
+                  {content}
+                </MessageContent>
+              </div>
+            </MessageBubble>
+          )
+        )}
+        <div ref={messagesEndRef}></div>
+      </MessageContainer>
+    </>
   );
 };
 
@@ -113,28 +143,43 @@ const Message = () => {
 
   const [postMessage] = useMutation(POST_MESSAGE);
   const sendMessage = () => {
-    console.log(content.length);
     if (content.length > 0) {
       postMessage({
         variables: {
           user: user.email,
           content,
+          picture: user.picture,
+          name: user.given_name || user.name,
         },
       });
+      dispatch(updateContent(''));
     }
-    dispatch(updateContent(''));
   };
 
   return (
-    <div>
+    <Container>
       <Messages user={user.email} />
-      <input
-        value={content}
-        type="text"
-        onChange={(e) => dispatch(updateContent(e.target.value))}
-      />
-      <button onClick={() => sendMessage()}>Send</button>
-    </div>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-around',
+        }}
+      >
+        <MessageInput
+          value={content}
+          type="text"
+          onChange={(e: { target: { value: any } }) =>
+            dispatch(updateContent(e.target.value))
+          }
+          onKeyUp={(e) => {
+            if (e.key === 'Enter') {
+              sendMessage();
+            }
+          }}
+        />
+        <SendButton onClick={() => sendMessage()}>Send</SendButton>
+      </div>
+    </Container>
   );
 };
 

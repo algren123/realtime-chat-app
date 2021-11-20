@@ -7,12 +7,14 @@ type Message {
     id: ID!
     user: String!
     content: String!
+    picture: String!
+    name: String!
   }
   type Query {
     messages: [Message!]
   }
   type Mutation {
-    postMessage(user: String!, content: String!): ID!
+    postMessage(user: String!, content: String!, picture: String!, name: String!): ID!
   }
   type Subscription {
     messages: [Message!]
@@ -27,12 +29,14 @@ const resolvers = {
     messages: () => messages,
   },
   Mutation: {
-    postMessage: (parent, { user, content }) => {
+    postMessage: (parent, { user, content, picture, name }) => {
       const id = messages.length;
       messages.push({
         id,
         user,
         content,
+        picture,
+        name,
       });
       subscribers.forEach((fn) => fn());
       return id;

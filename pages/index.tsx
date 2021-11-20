@@ -4,16 +4,22 @@ import Image from 'next/image';
 import Navbar from '../components/Navbar/Navbar';
 import styled from 'styled-components';
 import { useUser } from '@auth0/nextjs-auth0';
-import Chat from '../components/Chat/Chat.tsx';
+import Chat from '../components/Chat/Chat';
 
 const Container = styled.div`
   text-align: center;
+  height: 100vh;
 `;
 
 const Headline = styled.h1`
   font-size: 5rem;
   text-align: center;
   color: #f7ece1;
+
+  @media (max-width: 1000px) {
+    font-size: 2.5rem;
+    margin: 0.75em 0.5em;
+  }
 `;
 
 const Highlight = styled.span`
@@ -37,6 +43,11 @@ const Button = styled.button`
 
   :hover {
     background: linear-gradient(20deg, hsl(15, 60%, 65%), hsl(320, 60%, 65%));
+  }
+
+  @media screen and (max-width: 880px) {
+    font-size: 1.5rem;
+    margin: 0.5em;
   }
 `;
 
@@ -67,12 +78,12 @@ const Home: NextPage = () => {
               width="300"
             />
           ) : user ? (
-            <div>
+            <>
               <Headline>
                 Hey<Highlight>&nbsp;{user.given_name || user.name}</Highlight>!
               </Headline>
               <Chat />
-            </div>
+            </>
           ) : (
             <div>
               <Headline>Sign in and start chatting!</Headline>

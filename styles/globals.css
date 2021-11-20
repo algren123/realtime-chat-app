@@ -4,7 +4,6 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: Poppins;
   background-color: #1f2633;
   color: #f7ece1;
 }
@@ -16,4 +15,22 @@ a {
 
 * {
   box-sizing: border-box;
+  font-family: Poppins;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(44deg, #db8b70 25%, #db70b8 77%);
+  border-radius: 30px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(44deg, #c77f65 25%, #c964a7 77%);
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 0px;
+  box-shadow: inset 0px 0px 0px 0px #f0f0f0;
 }
