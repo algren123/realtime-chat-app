@@ -44,22 +44,22 @@ export default function Navbar() {
               </Link>
             </MenuItem>
             <MenuItem>
-              <Button>
-                <a href="/api/auth/logout">Logout</a>
-              </Button>
+              <Link href="/api/auth/logout" passHref>
+                <Button>Logout</Button>
+              </Link>
             </MenuItem>
           </>
         ) : (
           <>
             <MenuItem>
-              <Button>
-                <a href="/api/auth/login">Sign In</a>
-              </Button>{' '}
+              <Link href="/api/auth/login" passHref>
+                <Button>Sign in</Button>
+              </Link>
             </MenuItem>
             <MenuItem>
-              <Button>
-                <a href="/api/auth/login">Sign Up</a>
-              </Button>
+              <Link href="/api/auth/login" passHref>
+                <Button>Sign up</Button>
+              </Link>
             </MenuItem>
           </>
         )}
@@ -72,18 +72,24 @@ export default function Navbar() {
                 <a>Profile</a>
               </Button>
             </Link>
-            <a href="/api/auth/logout">
-              <Button theme={theme.signIn}>Logout</Button>
-            </a>
+            <Link href="/api/auth/logout" passHref>
+              <Button theme={theme.signIn}>
+                <a>Logout</a>
+              </Button>
+            </Link>
           </>
         ) : (
           <div>
-            <Button>
-              <a href="/api/auth/login">Sign In</a>
-            </Button>
-            <Button>
-              <a href="/api/auth/login">Sign Up</a>
-            </Button>
+            <Link href="/api/auth/login" passHref>
+              <Button>
+                <a>Sign In</a>
+              </Button>
+            </Link>
+            <Link href="/api/auth/login" passHref>
+              <Button>
+                <a>Sign Up</a>
+              </Button>
+            </Link>
           </div>
         )}
       </NavItems>

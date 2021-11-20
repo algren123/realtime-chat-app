@@ -1,6 +1,7 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
+import Link from 'next/link';
 import Navbar from '../components/Navbar/Navbar';
 import styled from 'styled-components';
 import { useUser } from '@auth0/nextjs-auth0';
@@ -87,12 +88,12 @@ const Home: NextPage = () => {
           ) : (
             <div>
               <Headline>Sign in and start chatting!</Headline>
-              <a href="/api/auth/login">
+              <Link href="/api/auth/login" passHref>
                 <Button>Sign In</Button>
-              </a>
-              <a href="/api/auth/login">
+              </Link>
+              <Link href="/api/auth/login" passHref>
                 <Button>Sign Up</Button>
-              </a>
+              </Link>
             </div>
           )}
         </Container>

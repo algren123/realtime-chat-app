@@ -56,7 +56,7 @@ const link: any =
 
 const client = new ApolloClient({
   link,
-  uri: 'http://localhost:4000/',
+  uri: 'http://localhost:4000/' || 'https://algren-realtime-chat.vercel.app',
   cache: new InMemoryCache(),
 });
 
