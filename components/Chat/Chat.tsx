@@ -30,7 +30,7 @@ import { split } from 'apollo-link';
 const wsLink: any =
   typeof window !== 'undefined'
     ? new WebSocketLink({
-        uri: 'ws://https://algren-realtime-chat.vercel.app',
+        uri: 'ws://algren-realtime-chat.vercel.app',
         options: {
           reconnect: true,
         },
