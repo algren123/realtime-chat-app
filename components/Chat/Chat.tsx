@@ -32,7 +32,7 @@ const wsLink: any =
     ? new WebSocketLink({
         uri:
           `ws://localhost:4000/` ||
-          'ws://https://www.algren-realtime-chat.vercel.app',
+          'ws://https://algren-realtime-chat.vercel.app',
         options: {
           reconnect: true,
         },
@@ -40,8 +40,7 @@ const wsLink: any =
     : null;
 
 const httplink: any = new HttpLink({
-  uri:
-    'http://localhost:4000/' || 'https://www.algren-realtime-chat.vercel.app',
+  uri: 'http://localhost:4000/' || 'https://algren-realtime-chat.vercel.app',
   credentials: 'same-origin',
 });
 
@@ -59,8 +58,7 @@ const link: any =
 
 const client = new ApolloClient({
   link,
-  uri:
-    'http://localhost:4000/' || 'https://www.algren-realtime-chat.vercel.app',
+  uri: 'http://localhost:4000/' || 'https://algren-realtime-chat.vercel.app',
   cache: new InMemoryCache(),
 });
 
