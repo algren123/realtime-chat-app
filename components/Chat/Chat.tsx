@@ -33,7 +33,7 @@ const wsLink: any =
         uri:
           process.env.NODE_ENV === 'development'
             ? `ws://localhost:4000/`
-            : 'wss://frozen-peak-50233.herokuapp.com/',
+            : 'wss://frozen-peak-50233.herokuapp.com/graphql',
         options: {
           reconnect: true,
         },
@@ -44,7 +44,7 @@ const httplink: any = new HttpLink({
   uri:
     process.env.NODE_ENV === 'development'
       ? 'http://localhost:4000/'
-      : 'https://frozen-peak-50233.herokuapp.com/',
+      : 'https://frozen-peak-50233.herokuapp.com/graphql',
   credentials: 'same-origin',
 });
 
@@ -65,7 +65,7 @@ const client = new ApolloClient({
   uri:
     process.env.NODE_ENV === 'development'
       ? 'http://localhost:4000/'
-      : 'https://frozen-peak-50233.herokuapp.com/',
+      : 'https://frozen-peak-50233.herokuapp.com/graphql',
   cache: new InMemoryCache(),
 });
 
