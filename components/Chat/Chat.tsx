@@ -33,7 +33,7 @@ const wsLink: any =
         uri:
           process.env.NODE_ENV === 'development'
             ? `ws://localhost:4000/`
-            : 'ws://https://algren-realtime-backend.vercel.app',
+            : 'ws://algren-realtime-backend.vercel.app',
         options: {
           reconnect: true,
         },
