@@ -100,7 +100,8 @@ export const HoverTooltip = styled.div<{ user: any; messageUser: any }>`
   padding: 0.5em;
   border-radius: 20px;
   top: -10px;
-  left: ${({ user, messageUser }) => (user === messageUser ? '-120px' : '0px')};
+  left: ${({ user, messageUser }) => (user === messageUser ? null : '0px')};
+  right: ${({ user, messageUser }) => (user === messageUser ? '0px' : null)};
   width: 200px;
   text-align: center;
   justify-content: flex-start;
@@ -109,11 +110,12 @@ export const HoverTooltip = styled.div<{ user: any; messageUser: any }>`
 export const TrashIcon = styled.div`
   color: black;
   position: absolute;
-  top: 60px;
+  bottom: -20px;
   right: -5px;
   font-size: 1.5em;
 
   :hover {
     color: red;
+    cursor: pointer;
   }
 `;
