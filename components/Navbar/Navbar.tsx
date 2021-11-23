@@ -30,7 +30,7 @@ export default function Navbar() {
   return (
     <NavContainer>
       <Link href="/" passHref>
-        <NavLogo>Company</NavLogo>
+        <NavLogo>Chattyio</NavLogo>
       </Link>
       <MenuIcon onClick={() => setClick(!click)}>
         {click ? <BiX /> : <BiMenu />}

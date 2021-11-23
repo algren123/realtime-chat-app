@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Container,
   MessageInput,
@@ -9,6 +9,8 @@ import {
   MessageName,
   UserPicture,
   NameContainer,
+  HoverTooltip,
+  TrashIcon,
 } from './Chat.styles';
 import {
   ApolloClient,
@@ -25,6 +27,7 @@ import { updateContent } from '../../features/mainSlice';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from 'apollo-utilities';
 import { split } from 'apollo-link';
+import { BsFillTrashFill } from 'react-icons/bs';
 
 // Workaround to make subscriptions work on Next.JS - headache
 const wsLink: any =
@@ -32,7 +35,7 @@ const wsLink: any =
     ? new WebSocketLink({
         uri:
           process.env.NODE_ENV === 'development'
-            ? `ws://localhost:4000/`
+            ? `ws://localhost:4000/subscriptions`
             : 'wss://frozen-peak-50233.herokuapp.com/subscriptions',
         options: {
           reconnect: true,
@@ -43,7 +46,7 @@ const wsLink: any =
 const httplink: any = new HttpLink({
   uri:
     process.env.NODE_ENV === 'development'
-      ? 'http://localhost:4000/'
+      ? 'http://localhost:4000/graphql'
       : 'https://frozen-peak-50233.herokuapp.com/graphql',
   credentials: 'same-origin',
 });
@@ -64,7 +67,7 @@ const client = new ApolloClient({
   link,
   uri:
     process.env.NODE_ENV === 'development'
-      ? 'http://localhost:4000/'
+      ? 'http://localhost:4000/graphql'
       : 'https://frozen-peak-50233.herokuapp.com/graphql',
   cache: new InMemoryCache(),
 });
@@ -78,6 +81,8 @@ const GET_MESSAGES = gql`
       content
       picture
       name
+      date
+      time
     }
   }
 `;
@@ -94,8 +99,55 @@ const POST_MESSAGE = gql`
   }
 `;
 
+const DELETE_MESSAGE = gql`
+  mutation ($id: ID!) {
+    deleteMessage(id: $id)
+  }
+`;
+
+// Renders the content and also adds the hover tooltip
+const MessageText = ({ id, user, messageUser, content, date, time }: any) => {
+  const [hovered, setHovered] = useState(false);
+
+  const [deleteMessage] = useMutation(DELETE_MESSAGE);
+  const handleDeleteMessage = (id: number) => {
+    deleteMessage({
+      variables: {
+        id,
+      },
+    });
+  };
+  return (
+    <>
+      {hovered ? (
+        <HoverTooltip user={user} messageUser={messageUser}>
+          {date + ' at ' + time}
+        </HoverTooltip>
+      ) : (
+        ''
+      )}
+      <MessageContent
+        user={user}
+        messageUser={messageUser}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      >
+        {content}
+      </MessageContent>
+      {messageUser === user ? (
+        <TrashIcon onClick={() => handleDeleteMessage(id)}>
+          <BsFillTrashFill />
+        </TrashIcon>
+      ) : (
+        ''
+      )}
+    </>
+  );
+};
+
 // Render available messages
 const Messages = ({ user }: UserProfile) => {
+  // Fetches the messages from the GraphQL Api
   const { data } = useSubscription(GET_MESSAGES);
 
   // Created an empty dev at the bottom of the messages so it has a reference for where to scroll to the 'bottom'
@@ -124,16 +176,29 @@ const Messages = ({ user }: UserProfile) => {
     <>
       <MessageContainer>
         {data.messages.map(
-          ({ id, user: messageUser, content, picture, name }: any) => (
+          ({
+            id,
+            user: messageUser,
+            content,
+            picture,
+            name,
+            date,
+            time,
+          }: any) => (
             <MessageBubble key={id} user={user} messageUser={messageUser}>
-              <div>
+              <div style={{ position: 'relative' }}>
                 <NameContainer user={user} messageUser={messageUser}>
                   <MessageName>{name}</MessageName>
                   <UserPicture src={picture} />
                 </NameContainer>
-                <MessageContent user={user} messageUser={messageUser}>
-                  {content}
-                </MessageContent>
+                <MessageText
+                  id={id}
+                  user={user}
+                  messageUser={messageUser}
+                  content={content}
+                  date={date}
+                  time={time}
+                />
               </div>
             </MessageBubble>
           )
