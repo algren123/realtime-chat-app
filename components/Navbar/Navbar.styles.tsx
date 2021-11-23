@@ -8,6 +8,7 @@ export const NavContainer = styled.nav`
   justify-content: space-between;
   padding: 0 16rem;
   position: sticky;
+  z-index: 5;
   top: 0;
   @media (max-width: 1000px) {
     padding: 0 2rem;
@@ -72,10 +73,11 @@ export const Menu = styled.div<{ click?: boolean }>`
 
   @media only screen and (max-width: 1000px) {
     display: flex;
+    position: absolute;
+    z-index: 5;
     flex-direction: column;
     width: 100%;
     height: calc(100vh - 4rem);
-    position: absolute;
     top: 64px;
     left: ${({ click }: any) => (click ? '0%' : '-120%')};
     background-color: #f3f5f7;

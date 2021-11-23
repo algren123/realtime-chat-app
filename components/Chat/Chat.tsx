@@ -11,6 +11,7 @@ import {
   NameContainer,
   HoverTooltip,
   TrashIcon,
+  BubbleContainer,
 } from './Chat.styles';
 import {
   ApolloClient,
@@ -186,7 +187,7 @@ const Messages = ({ user }: UserProfile) => {
             time,
           }: any) => (
             <MessageBubble key={id} user={user} messageUser={messageUser}>
-              <div style={{ position: 'relative' }}>
+              <BubbleContainer>
                 <NameContainer user={user} messageUser={messageUser}>
                   <MessageName>{name}</MessageName>
                   <UserPicture src={picture} />
@@ -199,7 +200,7 @@ const Messages = ({ user }: UserProfile) => {
                   date={date}
                   time={time}
                 />
-              </div>
+              </BubbleContainer>
             </MessageBubble>
           )
         )}

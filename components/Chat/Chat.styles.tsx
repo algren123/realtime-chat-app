@@ -119,3 +119,7 @@ export const TrashIcon = styled.div`
     cursor: pointer;
   }
 `;
+
+export const BubbleContainer = styled.div`
+  position: relative;
+`;
