@@ -1,34 +1,49 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## About The Project
+
+I am starting to learn quite a few new technologies, so as always, project-based learning is the best way to go for myself. I wanted to create a realtime chat application ever since my first week of starting to learn to code, but my skills weren't quite up to par. This time I wanted to integrate GraphQL to replace REST, and I paired it with Next.JS, Redux, TypeScript, styled-components and Node.JS. It features WebSockets for a two-way data-binding connection.
+
+### Built With
+
+* [Next.js](https://nextjs.org/)
+* [React.js](https://reactjs.org/)
+* [GraphQL](https://graphql.org/)
+* [Node.JS](https://nodejs.org/en/)
+* [TypeScript](https://www.typescriptlang.org/)
+* [styled-components](https://styled-components.com/)
+* [Redux-Toolkit](https://redux-toolkit.js.org/)
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+* npm
+* node.js 12.2 or later
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Roadmap
+ - [x] Add Documentation
+ - [ ] Fix minor styling issues
+ - [ ] Add a footer
+ - [ ] Revise to add more Redux functionality
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## Contributing
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+Don't forget to give the project a star! Thanks again!
 
-## Learn More
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-To learn more about Next.js, take a look at the following resources:
+## License
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Distributed under the MIT License. See `LICENSE.txt` for more information.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Contact
 
-## Deploy on Vercel
+Your Name - [@algren_m](https://twitter.com/algren_m) - algren.pauna@gmail.com
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Project Link: [https://github.com/algren123/realtime-chat-app](https://github.com/algren123/realtime-chat-app)
