@@ -2,6 +2,8 @@
 
 I am starting to learn quite a few new technologies, so as always, project-based learning is the best way to go for myself. I wanted to create a realtime chat application ever since my first week of starting to learn to code, but my skills weren't quite up to par. This time I wanted to integrate GraphQL to replace REST, and I paired it with Next.JS, Redux, TypeScript, styled-components and Node.JS. It features WebSockets for a two-way data-binding connection.
 
+[LIVE LINK](https://algren-realtime-chat.vercel.app/)
+
 ### Built With
 
 * [Next.js](https://nextjs.org/)
