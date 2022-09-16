@@ -46,6 +46,6 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 ## Contact
 
-Your Name - [@algren_m](https://twitter.com/algren_m) - algren.pauna@gmail.com
+[@algren_m](https://twitter.com/algren_m) - algren.pauna@gmail.com
 
 Project Link: [https://github.com/algren123/realtime-chat-app](https://github.com/algren123/realtime-chat-app)
